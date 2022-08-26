@@ -1,6 +1,6 @@
 export const fonts = {
   primary: "'Roboto', sans-serif",
-  secondary: "'Baskerville', sans-serif"
+  secondary: "'Libre Baskerville', serif",
 };
 
 export const typography = {
