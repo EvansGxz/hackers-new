@@ -18,6 +18,8 @@ const Options = styled.span`
   ${typography.md}
   font-weight: 500;
   cursor: pointer;
+  color: ${colors.gray.dark};
+  font-weight: bold;
   border-radius: 2px;
   padding: 0.188rem 1rem;
   margin: 4.375rem 0;
@@ -32,8 +34,6 @@ const Tittle = styled.span`
 `;
 
 const Container = styled.div`
-
-  background-color: ${colors.background};
   margin: 0 9.375rem;
   justify-content: space-between;
   align-content: center;
@@ -78,7 +78,7 @@ export default function HomePage() {
           {/*showLogin ? <LoginForm /> : <SignupForm />*/}
         <CardItem 
           timelogo={icontimer}
-          tittle="3 hours ago  by author"
+          tittle="2 hours ago  by author"
           body="Aute tempor reprehenderit ex laboris. asdlkdadklasjdklajdakljdklajklfjaklsjdklajkdaklfjaklfjaklfaklflakjdklad.  Aliqua eiusmod est Lorem est fugiat reprehenderit eiusmod qui minim irure voluptate enim aliquip."
           favorite={Unfavorite}
         />
