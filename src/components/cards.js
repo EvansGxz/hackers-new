@@ -62,6 +62,7 @@ const TimeText = styled.p`
 const Body = styled.p`
   font-family: ${fonts.primary};
   ${typography.sm};
+  font-weight: 500;
   color: ${colors.gray.medium};
   letter-spacing: 0.25px;
 `;
