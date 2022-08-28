@@ -6,7 +6,7 @@ import Unfavorite from "../assets/heart_off.png";
 import { colors, fonts, typography } from "../styles";
 import { useEffect, useState } from "react";
 import { get } from "axios";
-import { REACT_BASE_URI } from "../config";
+import { ANGULAR_BASE_URI, REACT_BASE_URI, VUEJS_BASE_URI } from "../config";
 import { Pagination } from "@mui/material";
 import { Dropdown } from "reactjs-dropdown-component";
 import { ddlOptions } from "../components/dropdown";
@@ -66,9 +66,9 @@ export default function HomePage() {
   const [showAll, setShowAll] = useState(true);
   const [page, setPage] = useState(1);
 
-  const handlePagination=(e, value)=>{
+  const handlePagination = (e, value) => {
     setPage(value);
-  }
+  };
   return (
     <>
       <Header />
@@ -101,58 +101,86 @@ export default function HomePage() {
             My faves
           </Options>
         </div>
-        {showAll ? <All page={page}/> : <MyFaves />}
-        <div style={{display: 'flex', justifyContent: 'center', margin: '2rem 0'}}>
-
-        <Pagination count={10} page={page} onChange={handlePagination} variant="outline" shape="rounded" />
+        {showAll ? <All page={page} /> : <MyFaves />}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "2rem 0",
+          }}
+        >
+          <Pagination
+            count={10}
+            page={page}
+            onChange={handlePagination}
+            variant="outline"
+            shape="rounded"
+          />
         </div>
       </Container>
     </>
   );
 }
 
-const All = ({page}) => {
-  useEffect(() => {
-    get(REACT_BASE_URI + page).then((data) => setReactData(data.data.hits));
-  }, [page]);
-  const [reactData, setReactData] = useState(null);
+const All = ({ page }) => {
+  const [comments, setComments] = useState(null);
   const [ddl, setDdl] = useState(null);
+  useEffect(() => {
+    if (ddl) {
+      if (ddl.value === "vue")
+        get(VUEJS_BASE_URI + page).then((data) => setComments(data.data.hits));
+      if (ddl.value === "angular")
+        get(ANGULAR_BASE_URI + page).then((data) =>
+          setComments(data.data.hits)
+        );
+      if (ddl.value === "react")
+        get(REACT_BASE_URI + page).then((data) => setComments(data.data.hits));
+    }
+  }, [page, ddl]);
+
   return (
     <>
-    <div style={{marginLeft: '12.7rem'}}>
-    <Dropdown
-        name="News List"
-        title="Select your news"
-        list={ddlOptions}
-        onChange={setDdl}
-        styles={{
-        headerTitle:{fontSize: '0.875rem', color: colors.black.medium, fontWeight: '500'},
-        listItem:{fontSize: '0.875rem', fontWeight: '500', lineHeight: '1.57rem'},
-        wrapper:{borderRadius: '4px', border: '1px solid #2e2e2e'}
-        }}
-        
-      />
+      <div style={{ marginLeft: "12.7rem" }}>
+        <Dropdown
+          name="News List"
+          title="Select your news"
+          list={ddlOptions}
+          onChange={setDdl}
+          styles={{
+            headerTitle: {
+              fontSize: "0.875rem",
+              color: colors.black.medium,
+              fontWeight: "500",
+            },
+            listItem: {
+              fontSize: "0.875rem",
+              fontWeight: "500",
+              lineHeight: "1.57rem",
+            },
+            wrapper: { borderRadius: "4px", border: "1px solid #2e2e2e" },
+          }}
+        />
       </div>
-    <CardContainer>
-      {reactData ? (
-        reactData.map((data) => (
-          <>
-            <CardItem
-              timelogo={icontimer}
-              tittle={`${timeSince(
-                new Date(
-                  reactData[0].created_at.split("T").join(" ").slice(0, -5)
-                )
-              )} ago by ${data.author}`}
-              body={data.comment_text}
-              favorite={Unfavorite}
-            />
-          </>
-        ))
-      ) : (
-        <p>No data found</p>
-      )}
-    </CardContainer>
+      <CardContainer>
+        {comments ? (
+          comments.map((data) => (
+            <>
+              <CardItem
+                timelogo={icontimer}
+                tittle={`${timeSince(
+                  new Date(
+                    comments[0].created_at.split("T").join(" ").slice(0, -5)
+                  )
+                )} ago by ${data.author}`}
+                body={data.comment_text}
+                favorite={Unfavorite}
+              />
+            </>
+          ))
+        ) : (
+          <p>No data found</p>
+        )}
+      </CardContainer>
     </>
   );
 };
