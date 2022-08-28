@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { get } from "axios";
 import { REACT_BASE_URI } from "../config";
 import { Pagination } from "@mui/material";
+import { Dropdown } from "reactjs-dropdown-component";
+import { ddlOptions } from "../components/dropdown";
 
 const Wrapper = styled.div`
   display: flex;
@@ -64,7 +66,6 @@ export default function HomePage() {
   const [showAll, setShowAll] = useState(true);
   const [page, setPage] = useState(1);
 
-
   const handlePagination=(e, value)=>{
     setPage(value);
   }
@@ -115,8 +116,23 @@ const All = ({page}) => {
     get(REACT_BASE_URI + page).then((data) => setReactData(data.data.hits));
   }, [page]);
   const [reactData, setReactData] = useState(null);
-
+  const [ddl, setDdl] = useState(null);
   return (
+    <>
+    <div style={{marginLeft: '12.7rem'}}>
+    <Dropdown
+        name="News List"
+        title="Select your news"
+        list={ddlOptions}
+        onChange={setDdl}
+        styles={{
+        headerTitle:{fontSize: '0.875rem', color: colors.black.medium, fontWeight: '500'},
+        listItem:{fontSize: '0.875rem', fontWeight: '500', lineHeight: '1.57rem'},
+        wrapper:{borderRadius: '4px', border: '1px solid #2e2e2e'}
+        }}
+        
+      />
+      </div>
     <CardContainer>
       {reactData ? (
         reactData.map((data) => (
@@ -137,6 +153,7 @@ const All = ({page}) => {
         <p>No data found</p>
       )}
     </CardContainer>
+    </>
   );
 };
 
