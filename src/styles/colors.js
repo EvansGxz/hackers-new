@@ -1,7 +1,7 @@
 export const colors = {
   gray: {
     light: "#767676",
-    medium: "#6b6b6b",
+    medium: "#6f6b78",
     high: "#f6f6f6",
     dark: "#606060"
   },
@@ -12,5 +12,5 @@ export const colors = {
   },
   white: "#FFF",
   background: "#FCFCFC",
-  blue: "#1890ff",
+  blue: "#1797ff",
 };
