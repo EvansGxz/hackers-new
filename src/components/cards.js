@@ -3,12 +3,13 @@ import { colors, fonts, typography } from "../styles";
 
 const CardContainer = styled.div`
   width: 34.375rem;
-  height: 6rem;
+  height: 6.5rem;
   border-radius: 6px;
-  border: solid 1px #979797;
+  border: solid 1px #c4c4c4;
   background-color: ${colors.white};
   flex-direction: row;
   display: flex;
+  margin: 0.975rem 0;
 `;
 
 const TimeContainer = styled.div`
@@ -19,7 +20,7 @@ const BodyContainer = styled.div`
 align-items: center;
 width: 27.5rem;
 
-overflow-y: hidden;
+overflow: hidden;
 `;
 
 const LikeContainer = styled.div`
