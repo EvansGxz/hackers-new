@@ -107,8 +107,7 @@ export const CardItem = ({
   src,
 }) => {
   let allFavorite = JSON.parse(localStorage.getItem("favoritePost"));
-  /*const favoritePost = allFavorite.find(
-          (favorite) => favorite.post_id === comments.comment_text);*/
+
 
   function mouseOver(e) {
     e.target.style.opacity = "0.6";
@@ -123,9 +122,8 @@ export const CardItem = ({
     }
 
     const favorite = {
-      post_name: body,
+      post_body: body,
       post_id: id,
-      favorite: true,
       link: path,
       author: author,
       date: date,
