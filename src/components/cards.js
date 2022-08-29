@@ -10,6 +10,10 @@ const CardContainer = styled.div`
   flex-direction: row;
   display: flex;
   margin: 0.975rem 0;
+  @media screen and (max-width: 600px) {
+    width: 90vw;
+    }
+ 
 `;
 
 const TimeContainer = styled.div`
@@ -19,8 +23,10 @@ const TimeContainer = styled.div`
 const BodyContainer = styled.div`
   align-items: center;
   width: 27.5rem;
-
   overflow: hidden;
+  @media screen and (max-width: 600px) {
+    width: 77vw;
+    }
 `;
 
 const LikeContainer = styled.div`
@@ -32,12 +38,21 @@ const LikeContainer = styled.div`
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
   background-color: ${colors.gray.high};
+   @media screen and (max-width: 600px) {
+    width: 90vw;
+    }
+ 
 `;
 
 const TimeWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 1rem 1.625rem 1rem 0.875rem;
+  @media screen and (max-width: 600px) {
+    margin: 2vh 0 0 0.875rem;
+    width: 71vw;
+    }
+    
 `;
 
 const Image = styled.img`
@@ -68,6 +83,7 @@ const Body = styled.p`
   color: ${colors.gray.medium};
   letter-spacing: 0.25px;
   height: 2.5rem;
+ 
 `;
 
 const TimeImg = ({ src }) => {

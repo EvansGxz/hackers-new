@@ -15,8 +15,10 @@ const Wrapper = styled.div`
   display: flex;
   background-image: linear-gradient(to bottom, #ececec -32%, #fff 124%);
   height: 15vh;
+  
   align-items: center;
   box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
+  
 `;
 
 const Options = styled.span`
@@ -27,7 +29,8 @@ const Options = styled.span`
   border-radius: 2px;
   padding: 0.188rem 1rem;
   margin: 4.375rem 0;
-  width: 6.125rem;
+  height: 2.225rem;
+  width: 7.125rem;
   text-align: center;
 `;
 
@@ -44,6 +47,9 @@ const Container = styled.div`
   justify-content: space-between;
   align-content: center;
   height: 85vh;
+  @media screen and (max-width: 600px) {
+    margin: 0 1vw;
+  }
 `;
 
 const CardContainer = styled.div`
@@ -52,6 +58,18 @@ const CardContainer = styled.div`
   justify-content: center;
   max-height: 55vh;
   overflow-y: scroll;
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 0;
+    max-height: 100vh;
+    justify-content: flex-start;
+    margin-left: 1vw;
+    }
+`;
+const DdlContainer = styled.div`
+  margin-let: 12.7rem;
+  @media screen and (max-width: 600px) {
+    margin-left: 2vw;
+    }
 `;
 
 const Header = () => {
@@ -140,7 +158,7 @@ const All = ({ page }) => {
 
   return (
     <>
-      <div style={{ marginLeft: "12.7rem" }}>
+      <DdlContainer>
         <Dropdown
           name="News List"
           title="Select your news"
@@ -160,7 +178,7 @@ const All = ({ page }) => {
             wrapper: { borderRadius: "4px", border: "1px solid #2e2e2e" },
           }}
         />
-      </div>
+      </DdlContainer>
       <CardContainer>
         {comments ? (
           comments.map((data, index) => (
