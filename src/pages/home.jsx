@@ -66,7 +66,7 @@ const CardContainer = styled.div`
     }
 `;
 const DdlContainer = styled.div`
-  margin-let: 12.7rem;
+  margin-left: 12.7rem;
   @media screen and (max-width: 600px) {
     margin-left: 2vw;
     }
