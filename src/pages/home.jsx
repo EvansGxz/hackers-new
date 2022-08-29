@@ -141,29 +141,41 @@ export default function HomePage() {
 }
 
 const All = ({ page }) => {
+  let allFavorite= JSON.parse(localStorage.getItem('favoritePost'));
+ 
   const [comments, setComments] = useState(null);
   const [ddl, setDdl] = useState(null);
   useEffect(() => {
+    if(localStorage.getItem('ddl')) setDdl(localStorage.getItem('ddl'))
     if (ddl) {
-      if (ddl.value === "vue")
-        get(VUEJS_BASE_URI + page).then((data) => setComments(data.data.hits));
-      if (ddl.value === "angular")
+      if (ddl === "vue")
+        get(VUEJS_BASE_URI + page).then((data) => {
+          setComments(data.data.hits)
+        
+        });
+      if (ddl === "angular")
         get(ANGULAR_BASE_URI + page).then((data) =>
           setComments(data.data.hits)
         );
-      if (ddl.value === "react")
+      if (ddl === "react")
         get(REACT_BASE_URI + page).then((data) => setComments(data.data.hits));
     }
-  }, [page, ddl]);
+  }, [page, /*allFavorite make request per ms*/, ddl]);
+
+  const handleListChange = (e)=>{
+    const {value} = e
+    setDdl(value);
+    localStorage.setItem('ddl', value);
+  }
 
   return (
     <>
       <DdlContainer>
         <Dropdown
           name="News List"
-          title="Select your news"
+          title={localStorage.getItem('ddl') ? localStorage.getItem('ddl') : "Select your news"}
           list={ddlOptions}
-          onChange={setDdl}
+          onChange={handleListChange}
           styles={{
             headerTitle: {
               fontSize: "0.875rem",
@@ -196,7 +208,7 @@ const All = ({ page }) => {
                 date={data.created_at}
                 comments={comments}
                 author={data.author}
-                src={Unfavorite}
+                src={allFavorite ? allFavorite.find(c => c.post_id === data.objectID) ? Favorite : Unfavorite : Unfavorite}
               />
             </div>
           ))
@@ -223,7 +235,7 @@ const MyFaves = () => {
                     data.date.split("T").join(" ").slice(0, -5)
                   )
                 )} ago by ${data.author}`}
-                body={data.post_name}
+                body={data.post_body}
                 path={data.story_url}
                 id={data.objectID}
                 src={Favorite}
