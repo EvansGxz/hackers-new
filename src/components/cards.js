@@ -117,6 +117,7 @@ export const CardItem = ({
     e.target.style.opacity = "";
   }
   function handleCreateFavorite() {
+    
     if (!allFavorite) {
       allFavorite = [];
     }
@@ -130,6 +131,14 @@ export const CardItem = ({
     };
     //Set storage
     allFavorite.push(favorite);
+    localStorage.setItem("favoritePost", JSON.stringify(allFavorite));
+  }
+
+  function handleRemoveFavorite(){
+    let allFavorite = JSON.parse(localStorage.getItem("favoritePost"));
+    allFavorite = allFavorite.filter(function( obj ) {
+    return obj.post_id !== id;
+});
     localStorage.setItem("favoritePost", JSON.stringify(allFavorite));
   }
   return (
@@ -146,7 +155,7 @@ export const CardItem = ({
         </TimeWrapper>
       </StyledLink>
 
-      <LikeContainer onClick={handleCreateFavorite}>
+      <LikeContainer onClick={allFavorite ? allFavorite.find(c => c.post_id === id) ? handleRemoveFavorite : handleCreateFavorite : handleCreateFavorite }>
         <LikeImg
           id={id}
           src={src}
