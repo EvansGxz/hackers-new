@@ -141,7 +141,7 @@ export default function HomePage() {
 }
 
 const All = ({ page }) => {
-  let allFavorite= JSON.parse(localStorage.getItem('favoritePost'));
+  let showFavorite= JSON.parse(localStorage.getItem('favoritePost'));
  
   const [comments, setComments] = useState(null);
   const [ddl, setDdl] = useState(null);
@@ -160,7 +160,7 @@ const All = ({ page }) => {
       if (ddl === "react")
         get(REACT_BASE_URI + page).then((data) => setComments(data.data.hits));
     }
-  }, [page, /*allFavorite make request per ms*/, ddl]);
+  }, [page, comments , ddl]);
 
   const handleListChange = (e)=>{
     const {value} = e
@@ -208,7 +208,7 @@ const All = ({ page }) => {
                 date={data.created_at}
                 comments={comments}
                 author={data.author}
-                src={allFavorite ? allFavorite.find(c => c.post_id === data.objectID) ? Favorite : Unfavorite : Unfavorite}
+                src={showFavorite ? showFavorite.find(c => c.post_id === data.objectID) ? Favorite : Unfavorite : Unfavorite}
               />
             </div>
           ))
@@ -221,12 +221,18 @@ const All = ({ page }) => {
 };
 
 const MyFaves = () => {
-  let allFavorite= JSON.parse(localStorage.getItem('favoritePost'));
+  
+  const [showFavorite, setShowFavorite] = useState(null);
+
+  useEffect(() => {
+    setShowFavorite(JSON.parse(localStorage.getItem('favoritePost')));
+
+  },[showFavorite])
   return (
   <>
       <CardContainer>
-        {allFavorite ? (
-          allFavorite.map((data, index) => (
+        {showFavorite ? (
+          showFavorite.map((data, index) => (
             <div key={index}>
               <CardItem
                 timelogo={icontimer}
@@ -236,8 +242,8 @@ const MyFaves = () => {
                   )
                 )} ago by ${data.author}`}
                 body={data.post_body}
-                path={data.story_url}
-                id={data.objectID}
+                path={data.link}
+                id={data.post_id}
                 src={Favorite}
               />
             </div>
