@@ -13,31 +13,31 @@ const CardContainer = styled.div`
 `;
 
 const TimeContainer = styled.div`
-display: flex;
+  display: flex;
 `;
 
 const BodyContainer = styled.div`
-align-items: center;
-width: 27.5rem;
+  align-items: center;
+  width: 27.5rem;
 
-overflow: hidden;
+  overflow: hidden;
 `;
 
 const LikeContainer = styled.div`
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 2.188rem 1.375rem 2.063rem;
-width: 4.25rem;
-border-top-right-radius: 6px;
-border-bottom-right-radius: 6px;
-background-color: ${colors.gray.high};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 2.188rem 1.375rem 2.063rem;
+  width: 4.25rem;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background-color: ${colors.gray.high};
 `;
 
 const TimeWrapper = styled.div`
-display: flex;
-flex-direction: column;
-margin: 1rem 1.625rem 1rem 0.875rem;
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 1.625rem 1rem 0.875rem;
 `;
 
 const Image = styled.img`
@@ -52,6 +52,7 @@ const Fav = styled.img`
   width: 1.5rem;
   height: 1.5rem;
   object-fit: contain;
+  cursor: pointer;
 `;
 
 const TimeText = styled.p`
@@ -66,6 +67,7 @@ const Body = styled.p`
   font-weight: 500;
   color: ${colors.gray.medium};
   letter-spacing: 0.25px;
+  height: 2.5rem;
 `;
 
 const TimeImg = ({ src }) => {
@@ -77,22 +79,76 @@ const LikeImg = ({ src }) => {
   return <Fav src={src} />;
 };
 
-export const CardItem = ({ tittle, timelogo, body, favorite }) => {
+export const CardItem = ({
+  tittle,
+  author,
+  timelogo,
+  body,
+  path,
+  id,
+  comments,
+  date,
+  src,
+}) => {
+  let allFavorite = JSON.parse(localStorage.getItem("favoritePost"));
+  /*const favoritePost = allFavorite.find(
+          (favorite) => favorite.post_id === comments.comment_text);*/
+
+  function mouseOver(e) {
+    e.target.style.opacity = "0.6";
+  }
+
+  function mouseOut(e) {
+    e.target.style.opacity = "";
+  }
+  function handleCreateFavorite() {
+    if (!allFavorite) {
+      allFavorite = [];
+    }
+
+    const favorite = {
+      post_name: body,
+      post_id: id,
+      favorite: true,
+      link: path,
+      author: author,
+      date: date,
+    };
+    //Set storage
+    allFavorite.push(favorite);
+    localStorage.setItem("favoritePost", JSON.stringify(allFavorite));
+  }
   return (
-    <CardContainer>
-    <TimeWrapper>
-      <TimeContainer>
-        <TimeImg src={timelogo} />
-        <TimeText>{tittle}</TimeText>
-      </TimeContainer>
-    
-      <BodyContainer>
-        <Body>{body}</Body>
-      </BodyContainer>
-</TimeWrapper>
-<LikeContainer>
-    <LikeImg src={favorite} />
-</LikeContainer>
+    <CardContainer onMouseEnter={mouseOver} onMouseLeave={mouseOut}>
+      <StyledLink href={path}>
+        <TimeWrapper>
+          <TimeContainer>
+            <TimeImg src={timelogo} />
+            <TimeText>{tittle}</TimeText>
+          </TimeContainer>
+          <BodyContainer>
+            <Body>{body}</Body>
+          </BodyContainer>
+        </TimeWrapper>
+      </StyledLink>
+
+      <LikeContainer onClick={handleCreateFavorite}>
+        <LikeImg
+          id={id}
+          src={src}
+          body={body}
+          path={path}
+          comments={comments}
+        />
+      </LikeContainer>
     </CardContainer>
   );
 };
+
+const StyledLink = styled.a`
+  text-decoration: none;
+  color: inherit;
+  &:visited {
+    text-decoration: none;
+  }
+`;

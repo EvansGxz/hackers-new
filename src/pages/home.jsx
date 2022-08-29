@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 import { CardItem } from "../components/cards";
 import icontimer from "../assets/icontimer.png";
-//import Favorite from "../assets/heart_on.png";
-import Unfavorite from "../assets/heart_off.png";
 import { colors, fonts, typography } from "../styles";
 import { useEffect, useState } from "react";
 import { get } from "axios";
@@ -10,6 +8,8 @@ import { ANGULAR_BASE_URI, REACT_BASE_URI, VUEJS_BASE_URI } from "../config";
 import { Pagination } from "@mui/material";
 import { Dropdown } from "reactjs-dropdown-component";
 import { ddlOptions } from "../components/dropdown";
+import Favorite from "../assets/heart_on.png";
+import Unfavorite from "../assets/heart_off.png";
 
 const Wrapper = styled.div`
   display: flex;
@@ -163,22 +163,27 @@ const All = ({ page }) => {
       </div>
       <CardContainer>
         {comments ? (
-          comments.map((data) => (
-            <>
+          comments.map((data, index) => (
+            <div key={index}>
               <CardItem
                 timelogo={icontimer}
                 tittle={`${timeSince(
                   new Date(
-                    comments[0].created_at.split("T").join(" ").slice(0, -5)
+                    data.created_at.split("T").join(" ").slice(0, -5)
                   )
                 )} ago by ${data.author}`}
                 body={data.comment_text}
-                favorite={Unfavorite}
+                path={data.story_url}
+                id={data.objectID}
+                date={data.created_at}
+                comments={comments}
+                author={data.author}
+                src={Unfavorite}
               />
-            </>
+            </div>
           ))
         ) : (
-          <p>No data found</p>
+          <p>Data not found</p>
         )}
       </CardContainer>
     </>
@@ -186,7 +191,33 @@ const All = ({ page }) => {
 };
 
 const MyFaves = () => {
-  return <></>;
+  let allFavorite= JSON.parse(localStorage.getItem('favoritePost'));
+  return (
+  <>
+      <CardContainer>
+        {allFavorite ? (
+          allFavorite.map((data, index) => (
+            <div key={index}>
+              <CardItem
+                timelogo={icontimer}
+                tittle={`${timeSince(
+                  new Date(
+                    data.date.split("T").join(" ").slice(0, -5)
+                  )
+                )} ago by ${data.author}`}
+                body={data.post_name}
+                path={data.story_url}
+                id={data.objectID}
+                src={Favorite}
+              />
+            </div>
+          ))
+        ) : (
+          <p>Data not found</p>
+        )}
+      </CardContainer>
+    </>
+  );
 };
 
 function timeSince(date) {
