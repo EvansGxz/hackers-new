@@ -15,10 +15,9 @@ const Wrapper = styled.div`
   display: flex;
   background-image: linear-gradient(to bottom, #ececec -32%, #fff 124%);
   height: 15vh;
-  
+
   align-items: center;
   box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
-  
 `;
 
 const Options = styled.span`
@@ -63,13 +62,13 @@ const CardContainer = styled.div`
     max-height: 100vh;
     justify-content: flex-start;
     margin-left: 1vw;
-    }
+  }
 `;
 const DdlContainer = styled.div`
   margin-left: 12.7rem;
   @media screen and (max-width: 600px) {
     margin-left: 2vw;
-    }
+  }
 `;
 
 const Header = () => {
@@ -141,17 +140,16 @@ export default function HomePage() {
 }
 
 const All = ({ page }) => {
-  let showFavorite= JSON.parse(localStorage.getItem('favoritePost'));
- 
+  let showFavorite = JSON.parse(localStorage.getItem("favoritePost"));
+
   const [comments, setComments] = useState(null);
   const [ddl, setDdl] = useState(null);
   useEffect(() => {
-    if(localStorage.getItem('ddl')) setDdl(localStorage.getItem('ddl'))
+    if (localStorage.getItem("ddl")) setDdl(localStorage.getItem("ddl"));
     if (ddl) {
       if (ddl === "vue")
         get(VUEJS_BASE_URI + page).then((data) => {
-          setComments(data.data.hits)
-        
+          setComments(data.data.hits);
         });
       if (ddl === "angular")
         get(ANGULAR_BASE_URI + page).then((data) =>
@@ -160,20 +158,24 @@ const All = ({ page }) => {
       if (ddl === "react")
         get(REACT_BASE_URI + page).then((data) => setComments(data.data.hits));
     }
-  }, [page, comments , ddl]);
+  }, [page, comments, ddl]);
 
-  const handleListChange = (e)=>{
-    const {value} = e
+  const handleListChange = (e) => {
+    const { value } = e;
     setDdl(value);
-    localStorage.setItem('ddl', value);
-  }
+    localStorage.setItem("ddl", value);
+  };
 
   return (
     <>
       <DdlContainer>
         <Dropdown
           name="News List"
-          title={localStorage.getItem('ddl') ? localStorage.getItem('ddl') : "Select your news"}
+          title={
+            localStorage.getItem("ddl")
+              ? localStorage.getItem("ddl")
+              : "Select your news"
+          }
           list={ddlOptions}
           onChange={handleListChange}
           styles={{
@@ -198,9 +200,7 @@ const All = ({ page }) => {
               <CardItem
                 timelogo={icontimer}
                 tittle={`${timeSince(
-                  new Date(
-                    data.created_at.split("T").join(" ").slice(0, -5)
-                  )
+                  new Date(data.created_at.split("T").join(" ").slice(0, -5))
                 )} ago by ${data.author}`}
                 body={data.comment_text}
                 path={data.story_url}
@@ -208,7 +208,13 @@ const All = ({ page }) => {
                 date={data.created_at}
                 comments={comments}
                 author={data.author}
-                src={showFavorite ? showFavorite.find(c => c.post_id === data.objectID) ? Favorite : Unfavorite : Unfavorite}
+                src={
+                  showFavorite
+                    ? showFavorite.find((c) => c.post_id === data.objectID)
+                      ? Favorite
+                      : Unfavorite
+                    : Unfavorite
+                }
               />
             </div>
           ))
@@ -221,15 +227,13 @@ const All = ({ page }) => {
 };
 
 const MyFaves = () => {
-  
   const [showFavorite, setShowFavorite] = useState(null);
 
   useEffect(() => {
-    setShowFavorite(JSON.parse(localStorage.getItem('favoritePost')));
-
-  },[showFavorite])
+    setShowFavorite(JSON.parse(localStorage.getItem("favoritePost")));
+  }, [showFavorite]);
   return (
-  <>
+    <>
       <CardContainer>
         {showFavorite ? (
           showFavorite.map((data, index) => (
@@ -237,9 +241,7 @@ const MyFaves = () => {
               <CardItem
                 timelogo={icontimer}
                 tittle={`${timeSince(
-                  new Date(
-                    data.date.split("T").join(" ").slice(0, -5)
-                  )
+                  new Date(data.date.split("T").join(" ").slice(0, -5))
                 )} ago by ${data.author}`}
                 body={data.post_body}
                 path={data.link}
@@ -256,7 +258,7 @@ const MyFaves = () => {
   );
 };
 
-function timeSince(date) {
+export function timeSince(date) {
   var seconds = Math.floor((new Date() - date) / 1000);
 
   var interval = seconds / 31536000;
