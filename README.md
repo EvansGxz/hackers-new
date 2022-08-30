@@ -1,3 +1,7 @@
+# Hackers News
+
+With this app you can save favorites post clicking in the "heart" icon and see all the recent news of angular, vue and react.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
