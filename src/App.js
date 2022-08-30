@@ -7,6 +7,8 @@ function App() {
         <Routes>
           <>
             <Route index element={<Navigate to="home" />} />
+            <Route path="/*" element={<HomePage/>} />
+            <Route path="/" element={<HomePage/>} />
             <Route path="/home" element={<HomePage />} />
           </>
         </Routes>

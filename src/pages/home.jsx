@@ -57,6 +57,7 @@ const CardContainer = styled.div`
   justify-content: center;
   max-height: 55vh;
   overflow-y: scroll;
+
   @media screen and (max-width: 600px) {
     grid-template-columns: 0;
     max-height: 100vh;
